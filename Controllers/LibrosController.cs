@@ -2,6 +2,7 @@
 using Entities.DTO;
 using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Repository.Interfaces;
 using Services.Interfaces;
 using System;
@@ -42,7 +43,7 @@ namespace CrudLibrosLogyca.Controllers
             if (idLibro <= 0)
                 return BadRequest("Ingrese un ID valido.");
 
-            return Ok(_repository.GetById(idLibro));
+            return Ok(JsonConvert.SerializeObject(_repository.GetById(idLibro)));
         }
 
         // POST api/<LibrosController>
@@ -50,7 +51,7 @@ namespace CrudLibrosLogyca.Controllers
         public IActionResult Post([FromBody] LibroViewModel libro)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return BadRequest(JsonConvert.SerializeObject(ModelState));
 
             try
             {
@@ -58,10 +59,10 @@ namespace CrudLibrosLogyca.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Ha ocurrido un error guardando el libro: {ex.Message}");
+                return BadRequest(JsonConvert.SerializeObject($"Ha ocurrido un error guardando el libro: {ex.Message}"));
             }
 
-            return Ok("Libro almacenado correctamente");
+            return Ok(JsonConvert.SerializeObject("Libro almacenado correctamente"));
         }
 
         // PUT api/<LibrosController>/5
@@ -69,7 +70,7 @@ namespace CrudLibrosLogyca.Controllers
         public IActionResult Put(int idLibro, [FromBody] LibroViewModel libro)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return BadRequest(JsonConvert.SerializeObject(ModelState));
 
             try
             {
@@ -80,10 +81,10 @@ namespace CrudLibrosLogyca.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Ha ocurrido un error guardando el libro: {ex.Message}");
+                return BadRequest(JsonConvert.SerializeObject($"Ha ocurrido un error guardando el libro: {ex.Message}"));
             }
 
-            return Ok("Libro actualizado correctamente.");
+            return Ok(JsonConvert.SerializeObject("Libro actualizado correctamente."));
         }
 
         // DELETE api/<LibrosController>/5
@@ -91,7 +92,7 @@ namespace CrudLibrosLogyca.Controllers
         public IActionResult Delete(int idLibro)
         {
             if (idLibro <= 0)
-                return BadRequest("Ingrese un ID valido.");
+                return BadRequest(JsonConvert.SerializeObject("Ingrese un ID valido."));
 
             try
             {
@@ -100,10 +101,10 @@ namespace CrudLibrosLogyca.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Ha ocurrido un error eliminando el libro: {ex.Message}");
+                return BadRequest(JsonConvert.SerializeObject($"Ha ocurrido un error eliminando el libro: {ex.Message}"));
             }
 
-            return Ok("Libro eliminado correctamente");
+            return Ok(JsonConvert.SerializeObject("Libro eliminado correctamente"));
         }
     }
 }
