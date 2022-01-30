@@ -1,4 +1,5 @@
 using CrudLibrosLogyca.IOC;
+using LogycaCrudLibros.IOC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,6 +37,8 @@ namespace CrudLibrosLogyca
             ConfigureSwagger.AddSwagger(services);
             //Agregar el contexto
             ConfigureContext.AddContext(services, Configuration);
+            //Agregar el cors
+            ConfigureCors.AddCors(services);
             //Agregar autommaper 
             services.AddAutoMapper(typeof(Startup));
 
@@ -62,6 +65,9 @@ namespace CrudLibrosLogyca
             //Agregar el middleware de swagger y swaggerui
             app.UseSwagger();
             app.UseSwaggerUI();
+
+            //Agregar el middleware de cors
+            app.UseCors("AllowedWebApps");
 
             app.UseEndpoints(endpoints =>
             {
